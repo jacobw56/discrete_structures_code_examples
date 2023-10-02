@@ -1,14 +1,21 @@
 # Some set stuff
-# All of these set operations are pretty poor, O(n), but it's python, so meh
+# All of these set operations are pretty poor, O(n), but it's python, so meh.
+# Also notice that the order of the output is (usually) neither the order of 
+# the input, nor lexicographical order.
  
 math_students = {"Imelda", "Dante", "Freyja"}
 gym_students = {"Ahmad", "Robin", "Dante"}
+
+print("\nMath students:")
+print(math_students)
+print("\nGym students:")
+print(gym_students)
  
 # Union using union()
 # function
 population = math_students.union(gym_students)
  
-print("Union using union() function")
+print("\nUnion using union() function")
 print(population)
  
 # Union using "|"
@@ -22,7 +29,7 @@ print(population)
 # intersection() function
 both_classes = math_students.intersection(gym_students)
  
-print("Intersection using intersection() function")
+print("\nIntersection using intersection() function")
 print(both_classes)
  
 # Intersection using
@@ -36,7 +43,7 @@ print(both_classes)
 # using difference() function
 math_not_gym = math_students.difference(gym_students)
  
-print(" Difference of two sets using difference() function")
+print("\nDifference of two sets using difference() function")
 print(math_not_gym)
  
 # Difference of two sets
