@@ -8,3 +8,9 @@ Building and running the C++ example is easy using `gcc` (Mac, Linux, Windows wi
 g++ sets.cpp -o sets
 ./sets
 ```
+
+If you have `python` version 3+ installed, you can run the python example using
+
+```[bash]
+python3 sets.py
+```
