@@ -21,34 +21,81 @@ void print_array(char *arr, size_t len)
     printf("\n");
 }
 
+void insertion_inc_recursive(char *arr, unsigned int len)
+{
+    if (len == 1)
+        return;
+    insertion_inc_recursive(arr, len - 1);
+    char key = arr[len - 1];
+    int j = len - 2;
+    while (j > -1 && arr[j] > key)
+    {
+        arr[j + 1] = arr[j];
+        j--;
+    }
+    arr[j + 1] = key;
+    printf("     after loop %i: ", len);
+    print_array(arr, len);
+}
+
+void insertion_inc(char *arr, unsigned int len)
+{
+    for (unsigned int i = 1; i < len; i++)
+    {
+        char key = arr[i];
+        int j = i - 1;
+        while (j > -1 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+        printf("     after loop %i: ", i);
+        print_array(arr, len);
+    }
+}
+
+void insertion_dec(char *arr, unsigned int len)
+{
+    for (unsigned int i = 1; i < len; i++)
+    {
+        char key = arr[i];
+        int j = i - 1;
+        while (j > -1 && arr[j] < key)
+        {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+        printf("     after loop %i: ", i);
+        print_array(arr, len);
+    }
+}
+
 int main(void)
 {
     // here's a character array, we could make one for int arrays, etc.
-    char arr[] = {'d', 'm', 'f', 'k', 'a', 'b'};
-    unsigned int array_size = (unsigned int)(sizeof(arr) / sizeof(arr[0]));
+    char arr1[] = {'d', 'm', 'f', 'k', 'a', 'b'};
+    char arr2[] = {'d', 'm', 'f', 'k', 'a', 'b'};
+    char arr3[] = {'d', 'm', 'f', 'k', 'a', 'b'};
+    unsigned int array_size = (unsigned int)(sizeof(arr1) / sizeof(arr1[0]));
 
     // Display the array before we start
+    printf("Increasing:\n");
     printf("Before first loop: ");
-    print_array(arr, sizeof(arr) / sizeof(arr[0]));
+    print_array(arr1, array_size);
 
-    for (unsigned int j = 1; j < array_size; j++)
-    {
-        unsigned int i = 0;
-        while (arr[j] > arr[i])
-        {
-            i++;
-        }
-        char temp = arr[j];
-        for (unsigned int k = 0; k < j - i; k++)
-        {
-            arr[j - k] = arr[j - k - 1];
-        }
-        arr[i] = temp;
+    insertion_inc(arr1, array_size);
 
-        // Display the array at each iteration
-        printf("     after loop %i: ", j);
-        print_array(arr, sizeof(arr) / sizeof(arr[0]));
-    }
+    printf("\nDecreasing:\n");
+    printf("Before first loop: ");
+    print_array(arr2, array_size);
+    insertion_dec(arr2, array_size);
+
+    printf("\nIncreasing, recursive:\n");
+    printf("Before first loop: ");
+    print_array(arr3, array_size);
+    insertion_inc_recursive(arr3, array_size);
 
     return 0;
 }
