@@ -2,21 +2,30 @@
  * @file bogosort.c
  * @author Walt Jacob
  * @brief Bogosort example
- * @date 2023-10-17
+ * @date 2023
  *
  * @copyright Copyright Walter Jacob (c) 2023
  *
- * @details To build it with gcc with plenty of optimization, run
- *              gcc -O3 bogosort.c -o bogo
+ * @details Refactored Fisher-Yates shuffle as a static library (which is really
+ *          just an archive of object files) to show an example of how to do this.
+ *          To build it with gcc with plenty of optimization, you can use
+ *
+ *              gcc -O2 -c ./fy_shuffle/fy_shuffle.c -o fy_shuffle.o
+ *              ar rcs libfy.a fy_shuffle.o
+ *              gcc -O2 -c bogosort.c -o bogosort.o -I./fy_shuffle
+ *              gcc bogosort.o libfy.a -o bogo
+ *
+ *          or some such.
  *          Run times start to get insane with 13 elements on very fast
  *          hardware in 2023.
  */
 
-#include <limits.h>  // INT_MAX
-#include <stdbool.h> // bool
-#include <stdio.h>   // printf
-#include <stdlib.h>  // rand, srand
-#include <time.h>    // timespec
+#include <limits.h>     // INT_MAX
+#include <stdbool.h>    // bool
+#include <stdio.h>      // printf
+#include <stdlib.h>     // rand, srand
+#include <time.h>       // timespec
+#include "fy_shuffle.h" // Fisher-Yates shuffle
 
 #define ARRAY_SIZE 10 /*<< Set your array size here! Careful though... */
 
@@ -26,24 +35,6 @@ static long get_nanos(void)
     struct timespec ts;
     timespec_get(&ts, TIME_UTC);
     return (long)ts.tv_sec * 1000000000L + ts.tv_nsec;
-}
-
-/* Fisher–Yates shuffle */
-void shuffle(int *array, size_t len)
-{
-    unsigned int currentIndex = (unsigned int)len, randomIndex;
-
-    // While there remain elements to shuffle.
-    for (currentIndex = len - 1; currentIndex > 0; currentIndex--)
-    {
-        // Pick a remaining element.
-        randomIndex = rand() % (currentIndex + 1);
-
-        // And swap it with the current element.
-        int tmp = array[randomIndex];
-        array[randomIndex] = array[currentIndex];
-        array[currentIndex] = tmp;
-    }
 }
 
 /* Sort check */
